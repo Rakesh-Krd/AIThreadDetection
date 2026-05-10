@@ -324,11 +324,11 @@ def severity_score(text):
 # Load Model
 # =========================
 tokenizer = AutoTokenizer.from_pretrained(
-    "model"
+    "rakeshkrd/bert-threat-detection"
 )
 
 model = AutoModelForSequenceClassification.from_pretrained(
-    "model"
+    "rakeshkrd/bert-threat-detection"
 )
 
 model.eval()
