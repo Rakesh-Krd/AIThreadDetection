@@ -6,7 +6,7 @@ scikit-learn
 pandas
 numpy
 rapidfuzz
-googletrans==4.0.0rc1
+deep-translator
 langdetect
 python-multipart
 sentencepiece
