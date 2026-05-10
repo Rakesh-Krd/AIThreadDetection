@@ -9,7 +9,7 @@ import torch
 import re
 
 from rapidfuzz import fuzz
-from googletrans import Translator
+from deep_translator import GoogleTranslator
 from langdetect import detect
 
 from fastapi.middleware.cors import CORSMiddleware
@@ -33,7 +33,7 @@ app.add_middleware(
 # =========================
 # Translator
 # =========================
-translator = Translator()
+
 
 @app.get("/")
 def home():
@@ -156,12 +156,12 @@ def translate_to_english(text):
 
     try:
 
-        translated = translator.translate(
-            text,
-            dest="en"
-        )
+        translated = GoogleTranslator(
+            source='auto',
+            target='en'
+        ).translate(text)
 
-        return translated.text.lower()
+        return translated.lower()
 
     except Exception as e:
 
