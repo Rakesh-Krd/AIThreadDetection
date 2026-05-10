@@ -35,6 +35,10 @@ app.add_middleware(
 # =========================
 translator = Translator()
 
+@app.get("/")
+def home():
+    return {"status": "API Running"}
+
 # =========================
 # Safe Context
 # =========================
