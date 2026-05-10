@@ -37,7 +37,7 @@ app.add_middleware(
 
 @app.get("/")
 def home():
-    return {"status": "API Running"}
+    return {"status": "running"}
 
 # =========================
 # Safe Context
@@ -323,13 +323,9 @@ def severity_score(text):
 # =========================
 # Load Model
 # =========================
-tokenizer = BertTokenizer.from_pretrained(
-    "rakeshkrd/bert-threat-detection"
-)
+tokenizer = None
 
-model = BertForSequenceClassification.from_pretrained(
-    "rakeshkrd/bert-threat-detection"
-)
+model = None
 
 model.eval()
 
@@ -340,10 +336,11 @@ class InputText(BaseModel):
     text: str
 
 # =========================
+
 # Prediction Function
 # =========================
 def predict_model(text):
-
+    load_model()
     inputs = tokenizer(
         text,
         return_tensors="pt",
