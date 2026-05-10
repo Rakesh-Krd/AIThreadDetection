@@ -11,3 +11,6 @@ langdetect
 python-multipart
 sentencepiece
 sacremoses
+sentencepiece
+tiktoken
+protobuf
