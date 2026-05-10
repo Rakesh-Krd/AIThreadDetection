@@ -327,6 +327,27 @@ tokenizer = None
 
 model = None
 
+def load_model():
+
+    global tokenizer
+    global model
+
+    if tokenizer is None or model is None:
+
+        print("Loading model...")
+
+        tokenizer = BertTokenizer.from_pretrained(
+            "rakeshkrd/bert-threat-detection"
+        )
+
+        model = BertForSequenceClassification.from_pretrained(
+            "rakeshkrd/bert-threat-detection"
+        )
+
+        model.eval()
+
+        print("Model loaded.")
+
 # model.eval()
 
 # =========================
