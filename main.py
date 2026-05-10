@@ -395,22 +395,22 @@ def predict_model(text):
 # API Endpoint
 # =========================
 @app.post("/predict")
-def predict(data: InputText):
+async def predict(data: InputData):
+    try:
+        print("Received data:", data)
 
-    original_text = data.text.strip()
+        prediction = model.predict([data.text])
 
-    # =========================
-    # Ignore Empty
-    # =========================
-    if len(original_text) < 2:
+        print("Prediction:", prediction)
 
         return {
-            "input": original_text,
-            "prediction": "Normal",
-            "confidence": 0.99,
-            "severity": "Low",
-            "source": "filter",
-            "reason": "Empty or invalid text"
+            "prediction": str(prediction[0])
+        }
+
+    except Exception as e:
+        print("ERROR:", str(e))
+        return {
+            "error": str(e)
         }
 
     # =========================
