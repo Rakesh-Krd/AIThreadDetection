@@ -396,20 +396,67 @@ def predict_model(text):
 # API Endpoint
 # =========================
 @app.post("/predict")
-async def predict(data: InputData):
+async def predict(data: InputText):
+
     try:
-        print("Received data:", data)
 
-        prediction = model.predict([data.text])
+        original_text = data.text
 
-        print("Prediction:", prediction)
+        # Translation
+        if is_english(original_text):
+            text = original_text.lower()
+        else:
+            text = translate_to_english(original_text)
+
+        print("Translated:", text)
+
+        # Safe Context
+        if is_safe_context(text):
+
+            return {
+                "prediction": "Normal",
+                "confidence": 0.95,
+                "severity": "Low",
+                "reason": "Detected gaming/sports context"
+            }
+
+        # Abuse Detection
+        if (
+            contains_abuse(text)
+            or fuzzy_abuse_check(text)
+        ):
+
+            return {
+                "prediction": "Abuse",
+                "confidence": 0.90,
+                "severity": "Medium",
+                "reason": "Abusive language detected"
+            }
+
+        # Model Prediction
+        pred, confidence = predict_model(text)
+
+        # Threat
+        if pred == 1:
+
+            return {
+                "prediction": "Threat",
+                "confidence": round(confidence, 3),
+                "severity": "High",
+                "reason": "Threat detected"
+            }
 
         return {
-            "prediction": str(prediction[0])
+            "prediction": "Normal",
+            "confidence": round(confidence, 3),
+            "severity": "Low",
+            "reason": "No harmful intent detected"
         }
 
     except Exception as e:
+
         print("ERROR:", str(e))
+
         return {
             "error": str(e)
         }
