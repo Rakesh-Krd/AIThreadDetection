@@ -341,8 +341,9 @@ def load_model():
         )
 
         model = BertForSequenceClassification.from_pretrained(
-            "rakeshkrd/bert-threat-detection"
-        )
+    "rakeshkrd/bert-threat-detection",
+    low_cpu_mem_usage=True
+)
 
         model.eval()
 
